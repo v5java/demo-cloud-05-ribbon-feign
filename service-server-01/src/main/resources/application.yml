@@ -1,0 +1,18 @@
+server:
+  port: 2100
+
+spring:
+  application:
+    name: CalculatorServer                        # 指定发布的微服务名（以后调用时，只需该名称即可访问该服务）
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true                     # 设置微服务调用地址为IP优先（缺省为false）
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 15  # 发呆时间，即服务续约到期时间（缺省为90s）
+  client:
+    healthcheck:
+      enabled: true                               # 开启健康检查（依赖spring-boot-starter-actuator）
+    serviceUrl:
+      defaultZone: http://127.0.0.1:1100/eureka/  # 指定服务注册中心的地址
